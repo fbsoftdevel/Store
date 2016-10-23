@@ -28,4 +28,4 @@
             });
         </script>        
     </head>
-    <body class="card-panel brown lighten-3">
+    <body class="brown lighten-3" ng-app="rootStoreApp">

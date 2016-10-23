@@ -9,11 +9,10 @@ $product = new Product($db);
 //get post data
 $data = json_decode(file_get_contents("php://input"));
 
-$product->setDbid($data->dbid);
 $product->setGroupRef($data->groupRef);
 $product->setProductName($data->productName);
 $product->setProductDescription($data->productDescription);
-$product->setProductImg($data->productImg);
+$product->setProductImg($data->productImage);
 $product->setDiscount($data->discount);
 $product->setBuyPrice($data->buyPrice);
 $product->setSellPrice($data->sellPrice);

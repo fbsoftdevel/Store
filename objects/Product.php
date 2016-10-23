@@ -113,7 +113,7 @@ class Product implements iTemplate {
 
         $this->setGroupRef(htmlspecialchars(strip_tags($this->getGroupRef())));
         $this->setProductName(htmlspecialchars(strip_tags($this->getProductName())));
-        $this->setProductDescriptio(htmlspecialchars(strip_tags($this->getProductDescription())));
+        $this->setProductDescription(htmlspecialchars(strip_tags($this->getProductDescription())));
         $this->setProductImg($this->getProductImg());
         $this->setDiscount($this->getDiscount());
         $this->setBuyPrice($this->getBuyPrice());

@@ -10,7 +10,7 @@ include_once 'iTemplate.php';
 class ProductImage implements iTemplate {
 
     private $conn;
-    private $tableName = "products";
+    private $tableName = "product_images";
     
     public $dbid;
     public $description;
@@ -88,7 +88,7 @@ class ProductImage implements iTemplate {
 
         $this->setImagePath(htmlspecialchars(strip_tags($this->getImagePath())));
         $this->setProductReference(htmlspecialchars(strip_tags($this->getProductReference())));
-        $this->setDescription(htmlspecialchars(strip_tags($this->getProductDescriptio())));
+        $this->setDescription(htmlspecialchars(strip_tags($this->getDescription())));
         $this->setSorting($this->getSorting());
 
         $stmt->bindParam("imagePath", $this->imagePath);
@@ -120,7 +120,7 @@ class ProductImage implements iTemplate {
     }
 
     public function readAll() {
-        $query = "SELECT dbid, image_path, product_reference, sorting, description, created"
+        $query = "SELECT dbid, image_path, product_reference, sorting, description, created, modified"
                 . " FROM " . $this->tableName . ""
                 . " ORDER BY dbid DESC";
 
@@ -158,7 +158,7 @@ class ProductImage implements iTemplate {
 
         $this->setImagePath(htmlspecialchars(strip_tags($this->getImagePath())));
         $this->setProductReference(htmlspecialchars(strip_tags($this->getProductReference())));
-        $this->setDescription(htmlspecialchars(strip_tags($this->getProductDescriptio())));
+        $this->setDescription(htmlspecialchars(strip_tags($this->getProductDescription())));
         $this->setSorting($this->getSorting());
 
         $stmt->bindParam("imagePath", $this->imagePath);

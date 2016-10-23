@@ -2,17 +2,17 @@
 <?php
 include_once 'view_header.php';
 ?>
-<div class="row">
+<div class="row card-panel brown lighten-5 brown lighten-2">
     <div class="col s12">
         <ul class="tabs">
-            <li class="tab col s3"><a href="#store_container">STORE</a></li>
-            <li class="tab col s3"><a class="active" href="#pgroup_container">GROUPS</a></li>
-            <li class="tab col s3"><a href="#product_container">PRODUCTS</a></li>
-            <li class="tab col s3"><a class="active" href="#pgroup_container">IMAGES</a></li>
+            <li class="tab col s3 card-panel brown darken-1"><a href="#store_container"><span class="brown-text text-lighten-5">STORE</span></a></li>
+            <li class="tab col s3 card-panel brown darken-1"><a class="active" href="#pgroup_container"><span class="brown-text text-lighten-5">GROUPS</span></a></li>
+            <li class="tab col s3 card-panel brown darken-1"><a href="#product_container"><span class="brown-text text-lighten-5">PRODUCTS</span></a></li>
+            <li class="tab col s3 card-panel brown darken-1"><a href="#pimage_container"><span class="brown-text text-lighten-5">IMAGES</span></a></li>
         </ul>
     </div>
 </div>
-<div id="store_container" ng-app="modStorePoint">
+<div id="store_container">
     <div class="container" ng-controller="StoreController">
         <div class="row">
             <div class="col s12">
@@ -71,7 +71,7 @@ include_once 'view_header.php';
         </div>
     </div>
 </div>
-<div id="pgroup_container" ng-app="modProductGroup">
+<div id="pgroup_container">
     <div class="container" ng-controller="ProductGroupCtrl">
         <div class="row">
             <div class="col s12">
@@ -145,7 +145,7 @@ include_once 'view_header.php';
         </div>
     </div> 
 </div>
-<div id="product_container" ng-app="modProduct">    
+<div id="product_container">    
     <div class="container" ng-controller="ProductCtrl">
         <div class="row">
             <div class="col s12">
@@ -237,17 +237,17 @@ include_once 'view_header.php';
         </div>
     </div> 
 </div>
-<div id="pimage_container" ng-app="modProductImage">
+<div id="pimage_container">
     <div class="container" ng-controller="ProductImageCtrl">
         <div class="row">
             <div class="col s12">
-                <h4>Product Groups</h4>
+                <h4>Product Images</h4>
                 <input type="text" ng-model="search" class="form-control" placeholder="Search Product images..."/>
                 <table class="hoverable bordered">
                     <thead>
                         <tr>
                             <th class="text-align-center">DBID</th>
-                            <th class="width-20-pct">Image path</th>
+                            <th class="width-20-pct">Image Name</th>
                             <th class="width-20-pct">Product Ref.</th>
                             <th class="width-15-pct">Sorting</th>
                             <th class="width-15-pct">Description</th>
@@ -277,9 +277,14 @@ include_once 'view_header.php';
                     <div class="modal-content">
                         <h4 id="modal-productimage-title">Create new Product image</h4>
                         <div class="row">
-                            <div class="input-field col s12">
-                                <input ng-model="imagePath" type="text" class="validate" id="form-name" placeholder="Load image here..."/>
-                                <label for="imagePath">Image Path</label>
+                            <div class="file-field input-field col s12">
+                                <div class="btn">
+                                    <span>File</span>
+                                    <input type="file">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="=text" ng-model="imagePath" placeholder="Load image here...">
+                                </div>                                
                             </div>
                             <div class="input-field col s12">
                                 <input ng-model="productReference" type="text" class="validate" id="form-name" placeholder="Type Product reference here..."/>
