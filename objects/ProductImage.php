@@ -7,7 +7,7 @@ include_once 'iTemplate.php';
  *
  * @author fabio
  */
-class Product implements iTemplate {
+class ProductImage implements iTemplate {
 
     private $conn;
     private $tableName = "products";

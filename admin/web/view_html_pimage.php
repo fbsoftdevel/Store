@@ -1,93 +1,8 @@
 <?php
     include 'view_header.php';
 ?>
-<body>
-<div id="pimage_container">
-    <script>
-        var app = angular.module('modProductImage', ['angularUtils.directives.dirPagination']);
-        app.controller('productImageController', function ($scope, $http) {
-            $scope.showCreateForm = function () {
-                $scope.clearForm();
-                $('#modal-productimage-title').text('Create new Product group');
-                $('#btn-update-productimage').hide();
-                $('#btn-create-productimage').show();
-            };
-            $scope.clearForm = function () {
-                $scope.dbid = "";
-                $scope.imagePath = "";
-                $scope.productReference = "";
-                $scope.sorting = "";
-                $scope.description = "";
-            };
-            $scope.createProductImage = function () {
-                $http.post('../controller/createProductImage.php', {
-                    'imagePath': $scope.imagePath,
-                    'productReference': $scope.productReference,
-                    'sorting': $scope.sorting,
-                    'description': $scope.description
-                }
-                ).success(function (data, status, header, config) {
-                    console.log(data);
-                    Materialize.toast(data, 4000);
-                    $('#modal-productimage-form').closeModal();
-                    $scope.clearForm();
-                    $scope.getAll();
-                });
-            };
-            $scope.getAll = function () {
-                $http.get("../controller/readProductImage.php").success(function (response) {
-                    $scope.productImages = response.records;
-                });
-            };
-            $scope.readOne = function (dbid) {
-                $('#modal-productimage-title').text("Edit Product image");
-                $('#btn-update-productimage').show();
-                $('#btn-create-productimage').hide();
-                $http.post('../controller/readOneProductImage.php', {
-                    'dbid': dbid
-                }).success(function (data, status, headers, config) {
-                    $scope.dbid = data[0]["dbid"];
-                    $scope.imagePath = data[0]["imagePath"];
-                    $scope.productReference = data[0]["productReference"];
-                    $scope.sorting = data[0]["sorting"];
-                    $scope.description = data[0]["description"];
-
-                    $('#modal-productimage-form').openModal();
-                }).error(function (data, status, header, config) {
-                    Materialize.toast('Unable to retrieve record.', 4000);
-                });
-            };
-            $scope.updateProductImage = function () {
-                $http.post('../controller/updateProductImage.php', {
-                    'dbid': $scope.dbid,
-                    'imagePath': $scope.imagePath,
-                    'productReference': $scope.productReference,
-                    'sorting': $scope.sorting,
-                    'description': $scope.description
-                }).success(function (data, status, headers, config) {
-                    Materialize.toast(data, 4000);
-                    $('#modal-productimage-form').closeModal();
-                    $scope.clearForm();
-                    $scope.getAll();
-                });
-            };
-            $scope.deleteProductImage = function (dbid) {
-                if (confirm("Are you sure?")) {
-                    $http.post('../controller/deleteProductImage.php', {
-                        'dbid': dbid
-                    }).success(function (data, status, headers, config) {
-                        Materialize.toast(data, 4000);
-                        $scope.getAll();
-                    });
-                }
-            }
-        });
-        $(document).ready(function () {
-            // initialize modal
-            $('.modal-trigger').leanModal();
-        });
-    </script>
-    <div class="container" ng-app="modProductImage" ng-controller="productImageController">
+<div id="pimage_container" ng-app="modProductImage">
+    <div class="container" ng-controller="ProductImageCtrl">
         <div class="row">
             <div class="col s12">
                 <h4>Product Groups</h4>
@@ -157,6 +72,5 @@
         </div>
     </div> 
 </div>
-</body>
 <?php
     include 'view_footer.php';

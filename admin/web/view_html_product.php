@@ -1,108 +1,8 @@
 <?php
-    include 'view_header.php';
+include 'view_header.php';
 ?>
-<body>
-<div id="product_container">
-    <script>
-        var app = angular.module('modProduct', ['angularUtils.directives.dirPagination']);
-        app.controller('productController', function ($scope, $http) {
-            $scope.showCreateForm = function () {
-                $scope.clearForm();
-                $('#modal-product-title').text('Create new Product');
-                $('#btn-update-product').hide();
-                $('#btn-create-product').show();
-            };
-            $scope.clearForm = function () {
-                $scope.dbid = "";
-                $scope.groupRef = "";
-                $scope.productName = "";
-                $scope.productDescription = "";
-                $scope.productImage = "";
-                $scope.discount = "";
-                $scope.buyPrice = "";
-                $scope.sellPrice = "";
-            };
-            $scope.createProduct = function () {
-                $http.post('../controller/createProduct.php', {
-                    
-                'groupRef' : $scope.groupRef,
-                'productName' : $scope.productName,
-                'productDescription' : $scope.productDescription,
-                'productImage' : $scope.productImage,
-                'discount' : $scope.discount,
-                'buyPrice' : $scope.buyPrice,
-                'sellPrice' : $scope.sellPrice
-                
-                }
-                ).success(function (data, status, header, config) {
-                    console.log(data);
-                    Materialize.toast(data, 4000);
-                    $('#modal-product-form').closeModal();
-                    $scope.clearForm();
-                    $scope.getAll();
-                });
-            };
-            $scope.getAll = function () {
-                $http.get("../controller/readProduct.php").success(function (response) {
-                    $scope.products = response.records;
-                });
-            };
-            $scope.readOne = function (dbid) {
-                $('#modal-product-title').text("Edit Product");
-                $('#btn-update-product').show();
-                $('#btn-create-product').hide();
-                $http.post('../controller/readOneProduct.php', {
-                    'dbid': dbid
-                }).success(function (data, status, headers, config) {
-                    
-                    $scope.dbid = data[0]["dbid"];
-                    $scope.groupRef = data[0]["groupRef"];
-                    $scope.productName = data[0]["productName"];
-                    $scope.productDescription = data[0]["productDescription"];
-                    $scope.productImage = data[0]["productImage"];
-                    $scope.discount = data[0]["discount"];
-                    $scope.buyPrice = data[0]["buyPrice"];
-                    $scope.sellPrice = data[0]["sellPrice"];                
-
-                    $('#modal-product-form').openModal();
-                }).error(function (data, status, header, config) {
-                    Materialize.toast('Unable to retrieve record.', 4000);
-                });
-            };
-            $scope.updateProduct = function () {
-                $http.post('../controller/updateProduct.php', {
-                    'dbid': $scope.dbid,
-                    'groupRef' : $scope.groupRef,
-                    'productName' : $scope.productName,
-                    'productDescription' : $scope.productDescription,
-                    'productImage' : $scope.productImage,
-                    'discount' : $scope.discount,
-                    'buyPrice' : $scope.buyPrice,
-                    'sellPrice' : $scope.sellPrice
-                }).success(function (data, status, headers, config) {
-                    Materialize.toast(data, 4000);
-                    $('#modal-product-form').closeModal();
-                    $scope.clearForm();
-                    $scope.getAll();
-                });
-            };
-            $scope.deleteProduct = function (dbid) {
-                if (confirm("Are you sure?")) {
-                    $http.post('../controller/deleteProduct.php', {
-                        'dbid': dbid
-                    }).success(function (data, status, headers, config) {
-                        Materialize.toast(data, 4000);
-                        $scope.getAll();
-                    });
-                }
-            }
-        });
-        $(document).ready(function () {
-            // initialize modal
-            $('.modal-trigger').leanModal();
-        });
-    </script>
-    <div class="container" ng-app="modProduct" ng-controller="productController">
+<div id="product_container" ng-app="modProduct">    
+    <div class="container" ng-controller="ProductCtrl">
         <div class="row">
             <div class="col s12">
                 <h4>Products</h4>
@@ -148,8 +48,11 @@
                         <h4 id="modal-product-title">Create new Product</h4>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input ng-model="groupRef" type="text" class="validate" id="form-name" placeholder="Type Group reference here..."/>
-                                <label for="groupRef">Group reference</label>
+                                <select ng-model="groupRef">
+                                    <option value="" disabled selected>Choose your Group reference...</option>     
+                                    <option ng-repeat="group in groups" value="{{group.group_name}}">{{group.group_name}}</option>
+                                </select>
+                                <label for="storeRef">Store reference</label>
                             </div>
                             <div class="input-field col s12">
                                 <input ng-model="productName" type="text" class="validate" id="form-name" placeholder="Type Product Name here..."/>
@@ -159,7 +62,7 @@
                                 <input ng-model="productDescription" type="text" class="validate" id="form-name" placeholder="Type Product description here..."/>
                                 <label for="productDescription">Product description</label>
                             </div>
-                             <div class="input-field col s12">
+                            <div class="input-field col s12">
                                 <input ng-model="productImage" type="text" class="validate" id="form-name" placeholder="Type Product images reference here..."/>
                                 <label for="productImage">Product Image</label>
                             </div>
@@ -190,6 +93,5 @@
         </div>
     </div> 
 </div>
-</body>
 <?php
-    include 'view_footer.php';
+include 'view_footer.php';

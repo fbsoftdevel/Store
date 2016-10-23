@@ -1,84 +1,8 @@
 <?php
 include 'view_header.php';
 ?>
-<div id="store_container">
-    <script>
-        var appS = angular.module('modStorePoint', ['angularUtils.directives.dirPagination']);
-        appS.controller('storeController', function ($scope, $http) {
-            $scope.showCreateForm = function () {
-                $scope.clearForm();
-                $('#modal-storepoint-title').text('Create new Store Point');
-                $('#btn-update-storepoint').hide();
-                $('#btn-create-storepoint').show();
-            };
-            $scope.clearForm = function () {
-                $scope.dbid = "";
-                $scope.storeName = "";
-                $scope.storeLocation = "";
-            };
-            $scope.createStorePoint = function () {
-                $http.post('../controller/createStorePoint.php', {
-                    'storeName': $scope.storeName,
-                    'storeLocation': $scope.storeLocation
-                }
-                ).success(function (data, status, header, config) {
-                    console.log(data);
-                    Materialize.toast(data, 4000);
-                    $('#modal-storepoint-form').closeModal();
-                    $scope.clearForm();
-                    $scope.getAll();
-                });
-            };
-            $scope.getAll = function () {
-                $http.get("../controller/readStorePoints.php").success(function (response) {
-                    $scope.storeNames = response.records;
-                });
-            };
-            $scope.readOne = function (dbid) {
-                $('#modal-storepoint-title').text("Edit Store point");
-                $('#btn-update-storepoint').show();
-                $('#btn-create-storepoint').hide();
-                $http.post('controller/readOneStorePoint.php', {
-                    'dbid': dbid
-                }).success(function (data, status, headers, config) {
-                    $scope.dbid = data[0]["dbid"];
-                    $scope.storeName = data[0]["storeName"];
-                    $scope.storeLocation = data[0]["storeLocation"];
-
-                    $('#modal-storepoint-form').openModal();
-                }).error(function (data, ststus, header, config) {
-                    Materialize.toast('Unable to retrieve record.', 4000);
-                });
-            };
-            $scope.updateStorePoint = function () {
-                $http.post('../controller/updateStorePoint.php', {
-                    'dbid' : $scope.dbid,
-                    'storeName' : $scope.storeName,
-                    'storeLocation' : $scope.storeLocation
-                }).success(function(data, status, headers, config){
-                    Materialize.toast(data, 4000);
-                        $('#modal-storepoint-form').closeModal();
-                        $scope.clearForm();
-                        $scope.getAll();
-                    });
-                };
-            $scope.deleteStorePoint = function (dbid) {
-                if (confirm("Are you sure?")){
-                        $http.post('../controller/deleteStorePoint.php', {
-                            'dbid': dbid
-                        }).success(function (data, status, headers, config) {
-                            Materialize.toast(data, 4000);
-                            $scope.getAll();
-                        });
-                }
-            };
-            });
-            $(document).ready(function () {
-                // initialize modal
-                $('.modal-trigger').leanModal();
-            });
-    </script>
-    <div class="container" ng-app="modStorePoint" ng-controller="storeController">
+<div id="store_container" ng-app="modStorePoint">
+    <div class="container" ng-controller="StoreController">
         <div class="row">
             <div class="col s12">
                 <h4>Store Points</h4>
